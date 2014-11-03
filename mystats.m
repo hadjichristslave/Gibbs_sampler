@@ -16,4 +16,6 @@ for i=1:1:niter
 	end
 	counter = counter+1;
 	pause(1);
+	command = cstrcat('rm ', '' , file);
+	system(command);
 end
