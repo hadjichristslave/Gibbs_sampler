@@ -21,4 +21,4 @@ while( my $line = <$info>){
 
 close $info;
 `rm output.txt`;
-`octave mystats.m`;
+#`octave mystats.m`;
