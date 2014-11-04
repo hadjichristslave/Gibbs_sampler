@@ -1,3 +1,5 @@
 report*.txt
+output.txt
+nIter
 *.swp
 *.swo

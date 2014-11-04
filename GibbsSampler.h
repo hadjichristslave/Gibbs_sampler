@@ -48,7 +48,6 @@ class GibbsSampler
         static const double alpha = 5;
         static const int nIter    = 20;
 
-
         //Initialize the parameters of the base distributions
 
 
