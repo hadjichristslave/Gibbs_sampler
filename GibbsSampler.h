@@ -33,8 +33,7 @@ class GibbsSampler
         vector<Part> particleVector;
         int collapsedCRP(vector<Part> &partVector);
         void initialize(vector<Part> &partVector, Templates<int> &mu , Templates<int> &c, sufficientStatistics &k, int dataDim);
-        //void updateSufficientStatistics(Part &p, sufficientStatistics &k , int statisticsIndex);
-        int sampleNewCluster(Templates<int> &mu , int alpha,Part &datapoint,  int partindex, sufficientStatistics &accumulatedStats , Templates<int> &c);
+        int sampleNewCluster(Templates<int> &mu , double alpha,Part &datapoint,  sufficientStatistics &accumulatedStats);
         double predictMarginal(Part &part, sufficientStatistics &Stats, int pointIndex );
         sufficientStatistics G0;
 
@@ -45,9 +44,8 @@ class GibbsSampler
         *  Every hard coded variable that is needed in order to define the model is given bellow
         */
         static const int dataDim  = 2;
-        static const double alpha = 2;
-        static const int nIter    = 20;
-
+        static const double alpha = 20;
+        static const int nIter    = 100;
 
         //Initialize the parameters of the base distributions
 
