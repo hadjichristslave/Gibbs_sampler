@@ -100,7 +100,7 @@ void GibbsSampler::initialize(vector<Part> &partVector, Templates<int> &mu , Tem
 
         //In the first step of the algorihtm, randomly allocate the particles to clusters
         //randChoice = rand() % dataSize;
-        randChoice = counter%3;
+        randChoice = counter%10;
         // Set the data to the random cluster
         c.set(randChoice, counter);
         mu.set(mu.get(c.get(randChoice))+1, randChoice);
