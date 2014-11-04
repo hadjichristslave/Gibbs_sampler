@@ -1,4 +1,4 @@
-#include "auxiliary.h"
+#include "../Headers/0auxiliary.h"
 
 Auxiliary::Auxiliary()
 {
