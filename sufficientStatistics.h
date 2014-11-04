@@ -28,12 +28,13 @@ struct sufficientStatistics{
         // strConstr
         sufficientStatistics(int,int);
         sufficientStatistics();
-        void set(sufficientStatistics &k , int index);
+        void set(sufficientStatistics k , int index);
         //Populate complex types
         void populateMu(std::vector< std::vector<double> > &lambda, int dim , int dataSize);
         void populateCovariance(std::vector< std::vector< std::vector<double> > > &lambda, int dim, int dataSize);
         void updateSufficientStatistics(Part &p, sufficientStatistics &k , int statisticsIndex , bool elementAdded);
         void print(sufficientStatistics &k,  int ind);
+        void printMu(sufficientStatistics &k,  int ind);
 };
 
 sufficientStatistics::sufficientStatistics(){
@@ -81,12 +82,18 @@ void sufficientStatistics::print(sufficientStatistics &k,  int ind){
         std::cout << k.mu[ind][i] << ",";
     std::cout<< std::endl <<  "lambda: ";
     std::vector<std::vector<double> > lambda = k.lambda[ind];
-    for(int i=0;i<lambda.size();i++){
-        for(int j=0;j<lambda[i].size();j++)
+    for(unsigned int i=0;i<lambda.size();i++){
+        for(unsigned int j=0;j<lambda[i].size();j++)
             std::cout << lambda[i][j] << ",";
         std::cout<< std::endl << "        ";
     }
     std::cout << "---------------" << std::endl;
+}
+void sufficientStatistics::printMu(sufficientStatistics &k,  int ind){
+    for(int i=0;i<k.mu[ind].size();i++)
+        if(k.nu.get(ind)>baseNu && k.kappa.get(ind)>baseKappa)
+                std::cout << k.mu[ind][0] << " " << k.mu[ind][1] << std::endl;
+
 }
 
 void sufficientStatistics::updateSufficientStatistics(Part &p, sufficientStatistics &k , int statisticsIndex , bool elementAdded){
@@ -109,10 +116,12 @@ void sufficientStatistics::updateSufficientStatistics(Part &p, sufficientStatist
     }else{
         kappa1 = kappa-1;
         nu1    = nu-1;
-        if(kappa1<baseKappa)
-            kappa1 = baseKappa ;
-        if(nu1<baseNu)
+        if(kappa1<baseKappa){
+            kappa1 = baseKappa;
+        }
+        if(nu1<baseNu){
                nu1 = baseNu ;
+        }
     }
 
     // Some matrix operations needed hence the use of the Auxiliary class
@@ -161,7 +170,7 @@ void sufficientStatistics::updateSufficientStatistics(Part &p, sufficientStatist
     //std::cout << std::endl <<"---updated statistics---" <<std::endl;
     //k.print(k, statisticsIndex);
 }
-void sufficientStatistics::set(sufficientStatistics &k, int index){
+void sufficientStatistics::set(sufficientStatistics k, int index){
     kappa.set(k.kappa.get(0),index);
     nu.set(k.nu.get(0),index);
     mu[index]       = k.mu[0];
