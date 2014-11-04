@@ -4,7 +4,7 @@ system('rm nIter');
 figure;
 counter = 1;
 cmap = colormap(hsv);
-for i=1:1:niter
+for i=0:1:niter
 	clf
 	file = strcat('report', mat2str(counter) , '.txt')
 	data = load(file);
