@@ -60,7 +60,7 @@ T Templates<T>::sum(){ // get the value of vector element
         sum+=elems[i];
     return sum;
 }
-//returns teh index of the first element that is equal to elem -1 if no element is found
+//returns the index of the first element that is equal to elem -1 if no element is found
 // operation indexes
 // 1 search equal
 // 2 search bigger

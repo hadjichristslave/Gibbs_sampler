@@ -45,7 +45,7 @@ class GibbsSampler
         *  Every hard coded variable that is needed in order to define the model is given bellow
         */
         static const int dataDim  = 2;
-        static const double alpha = 2;
+        static const double alpha = 5;
         static const int nIter    = 20;
 
 

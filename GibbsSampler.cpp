@@ -47,7 +47,6 @@ int GibbsSampler::collapsedCRP(vector<Part> &partVector){
     //start gibbs sampler iterations
     //As the number of iterations --> infinity, the sampler will mathematically converge to the target distrubiotion
     //Increased number of iterations == slower algo. you win some lose some.
-    int asdf= 0;
     for(int i=0;i<nIter;i++){
     //for(int i=0;i<1;i++){
         //For all iterations for all particles
@@ -57,7 +56,6 @@ int GibbsSampler::collapsedCRP(vector<Part> &partVector){
 
             //Update the sufficient statistics
             G0.updateSufficientStatistics(partVector[j], k, c.get(j), false);
-
             int cluster = this->sampleNewCluster(m , alpha, partVector[j], j ,k, c);
             c.set(cluster, j);
 
@@ -122,7 +120,6 @@ int GibbsSampler::sampleNewCluster(Templates<int> &mu , int alpha, Part &datapoi
         int clustInd = activeClusters[i];
         // changed c.get(clustind) to clustInd;
         double pred = this->predictMarginal(datapoint, accumulatedStats, clustInd )*mu.get(clustInd );
-
         clustProbability.set(pred, i);
     }
 
@@ -154,7 +151,9 @@ int GibbsSampler::sampleNewCluster(Templates<int> &mu , int alpha, Part &datapoi
         std::vector<double> cumsum = clustProbability.cumsum();
         //set clust probability vector to the template so that we get the nice functions of the Template
         clustProbability.set(cumsum);
-        //find the first in the cumsum
+        //find the first index in the cumsum bigger than u1 and return it
+        //This is a classical MCMC approach that is nicely presented in a video lecture by Jarad Niemi here:
+        //https://www.youtube.com/watch?v=MKnjsqYVG4Y&list=UUvJW6o0x1dzKZJ5b5exYuxw
         int clusterIndex = clustProbability.findFirst(u1,2);
         cluster = activeClusters[clusterIndex];
     }
@@ -195,7 +194,7 @@ double GibbsSampler::predictMarginal(Part &part, sufficientStatistics &Stats, in
 
     //Capture -nan and nan values
     if(retVal!=retVal){
-            std::cout<< "returning marginal " << retVal << std::endl;
+            std::cout<< "error marginal " << retVal << std::endl;
     }
     return retVal;
 }
