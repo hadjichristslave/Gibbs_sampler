@@ -3,8 +3,9 @@ use warnings;
 
 `rm output.txt`;
 `rm report*.txt`;
-`./GibbsSampler > output.txt`;
-my $file = 'output.txt';
+my $tmpPath = "/tmp/GibbsSampler/";
+`./GibbsSampler > /tmp/GibbsSampler/output.txt`;
+my $file = $tmpPath. 'output.txt';
 open my $info, $file or die "Could not open $file: $!";
 my $counter = 0;
 my $mu      = 0;
@@ -19,9 +20,9 @@ while( my $line = <$info>){
 	$mu = 1;
     }else{
 	if($mu==0){
-	        $filename = 'report'.$counter.'.txt';
+	        $filename = $tmpPath . 'report' .$counter.'.txt';
 	}else{
-		$filename = "mu".$counter.".txt";
+	 		$filename = $tmpPath . "mu" .$counter.".txt";
 	}
         open(my $fh, '>>', $filename) or die "Could not open file '$filename' $!";
         print $fh "$line";
@@ -30,5 +31,5 @@ while( my $line = <$info>){
 }
 
 close $info;
-`rm output.txt`;
-#`octave mystats.m`;
+`rm /tmp/GibbsSampler/output.txt`;
+`octave mystats.m`;

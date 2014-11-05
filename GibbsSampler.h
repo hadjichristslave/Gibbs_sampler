@@ -37,7 +37,7 @@ class GibbsSampler
         double predictMarginal(Part &part, sufficientStatistics &Stats, int pointIndex );
         sufficientStatistics G0;
 
-        static const bool debuger = true;
+        static const bool debuger = false;
 
         /*
         *  Gibbs sampler specific functions
@@ -45,7 +45,7 @@ class GibbsSampler
         */
         static const int dataDim  = 2;
         static const double alpha = 20;
-        static const int nIter    = 100;
+        static const int nIter    = 20;
 
         //Initialize the parameters of the base distributions
 
