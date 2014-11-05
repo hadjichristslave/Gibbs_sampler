@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 
+`mkdir /tmp/GibbsSampler";
 `rm output.txt`;
 `rm report*.txt`;
 my $tmpPath = "/tmp/GibbsSampler/";
