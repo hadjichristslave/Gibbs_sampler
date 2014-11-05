@@ -1,4 +1,5 @@
-system('ls | grep report | wc -l > nIter');
+#!/urs/bin/octave
+system('ls | grep /tmp/GibbsSampler/report | wc -l > nIter');
 niter = load("nIter")-1;
 system('rm nIter');
 figure;
@@ -6,8 +7,8 @@ counter = 1;
 cmap = colormap(hsv);
 for i=0:1:niter
 	clf
-	file   = strcat('report', mat2str(counter) , '.txt');
-	filemu = strcat('mu', mat2str(counter), '.txt');
+	file   = strcat('/tmp/GibbsSampler/report', mat2str(counter) , '.txt');
+	filemu = strcat('/tmp/GibbsSampler/mu', mat2str(counter), '.txt');
 	data   = load(file);
 	data   = data(1:end-1,:);
 	dataMu = load(filemu);
