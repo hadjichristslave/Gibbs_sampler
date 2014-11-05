@@ -70,9 +70,9 @@ int GibbsSampler::collapsedCRP(vector<Part> &partVector){
                 G0.updateSufficientStatistics(partVector[j], k, cluster, true);
             }
         }
-        std::vector<int> act = m.getActiveClusters();
-        std::cout << act.size()<< "--" << std::endl;
-        m.print();
+        //std::vector<int> act = m.getActiveClusters();
+        //std::cout << act.size()<< "--" << std::endl;
+        //m.print();
 
         if(debuger){
             std::cout << "--------" <<std::endl;
