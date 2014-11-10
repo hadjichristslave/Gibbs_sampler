@@ -44,7 +44,7 @@ void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &cluste
     PMF.normalize();
 
 
-    Templates<int> topClusters= sampleClusters(PMF , clusters.size());
+    Templates<int> topClusters = sampleClusters(PMF , clusters.size());
 
     for(unsigned int i=0;i<topClusters.size();i++){
 
