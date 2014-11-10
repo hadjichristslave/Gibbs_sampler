@@ -1,6 +1,7 @@
 #ifndef ABSTRACTS_H
 #define ABSTRACTS_H
 #include <vector>
+#include <algorithm>
 #include <stdlib.h>
 using namespace std;
 
@@ -20,7 +21,8 @@ class Templates
         void populate(T const& elem, int numOfEntries, int numOfDimensions);
         void set(T const& elem, int index);
         void set(std::vector<T> &elem);
-        void set(std::vector<T> &elem , int index);
+        void set(std::vector<T> &elem , int index);\
+        int uniqueSize();
         T get(int index);
         T sum();
         void remove(int index);
@@ -31,10 +33,15 @@ class Templates
         int findFirst(T const& elem , int operation);
         void divide(T const& elem);
         std::vector<T> cumsum();
+        typename std::vector<T>::iterator unique(typename std::vector<T>::iterator first, typename std::vector<T>::iterator last);
 
 
     protected:
 };
+
+bool myfunction(int i , int j ){
+    return (i==j);
+}
 
 template <class T>
 void Templates<T>::populate(T const& elem, int numOfEntries){ // any time of vector object is allowed
@@ -154,5 +161,33 @@ std::vector<T> Templates<T>::cumsum(){
     return cumSumVect;
 }
 
+template <class T>
+int Templates<T>::uniqueSize(){
+    std::vector<T> tempvec = elems; // make a copy of the vector
+    typename vector<T>::iterator it; // uniqe unique unique repeat repeat repeat
 
+    tempvec.erase( unique(tempvec.begin(), tempvec.end()) ,tempvec.end());
+
+/*    it = std::unique(tempvec.begin(), tempvec.end());  // uniqe unique unique ? ? ?
+
+    tempvec.resize( std::distance(tempvec.begin(),it)); // uniqe unique unique
+
+
+    std::unique(tempvec.begin(), tempvec.end(), myfunction);*/
+
+    for (it=tempvec.begin(); it!=tempvec.end(); ++it)
+        std::cout << " - " << *it;
+    std::cout << "\n";
+    return tempvec.size();
+}
+
+template <class T>
+typename std::vector<T>::iterator Templates<T>::unique(typename std::vector<T>::iterator first, typename std::vector<T>::iterator last){
+    while(first!=last){
+        typename std::vector<T>::iterator next(first);
+        last  = std::remove(++next, last ,*first);
+        first = next;
+    }
+    return last;
+}
 #endif // ABSTRACTS_H

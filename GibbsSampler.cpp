@@ -253,7 +253,7 @@ int main(){
             double x = strtod (tab2, &pEnd);
             double y = strtod (tab1, &pEnd);
 
-            //finally add data to vector
+            //finally add data to vector]
             Part p = Part();
             Point poi(x, y);
             p.setPoint(poi);
@@ -265,10 +265,13 @@ int main(){
     try{
         Templates<int> assignments = gs.collapsedCRP(particleVector);
         Templates<double> weights;
-        weights.populate(true, assignments.size(), true, true);
-        resampleIndixes(weights, assignments);
 
-        std::cout << weights.sum() <<std::endl;
+        weights.populate(true, assignments.size(), true, true);
+        weights.normalize();
+        gs.resampleIndixes(weights, assignments);
+
+
+
     }catch(exception &e){
         std::cout << " Exception occured " << e.what() << std::endl;
     }

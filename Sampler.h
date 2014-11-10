@@ -7,15 +7,20 @@ using namespace std;
 class Sampler
 {
     public:
-        std::vector<int> resampleIndixes(Templates<double> &weights, Templates<int> &clusters);
+        void resampleIndixes(Templates<double> &weights, Templates<int> &clusters);
         int resample();
     protected:
     private:
 };
 
-std::vector<int> Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &clusters){
-    std::vector<int> assigned;
-    return assigned;
+void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &clusters){
+    int topSize = clusters.uniqueSize();
+    std::vector<double> interCl(topSize,1);
+    std::vector<std::vector<double> > intraCl(topSize);
+
+    for(unsigned int i=0;i<clusters.size();i++){
+    }
+
 
 }
 
