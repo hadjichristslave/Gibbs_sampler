@@ -38,8 +38,8 @@ struct sufficientStatistics{
 };
 
 sufficientStatistics::sufficientStatistics(){
-        int baseKappa  = 1;
-        int baseNu     = 4;
+        //int baseKappa  = 1;
+        //int baseNu     = 4;
 }
 sufficientStatistics::sufficientStatistics(int dataSize, int dataDim){
     int baseKappa  = 1;
@@ -78,7 +78,7 @@ void sufficientStatistics::print(sufficientStatistics &k,  int ind){
     std::cout << "kappa: " << k.kappa.get(ind) <<std::endl;
     std::cout << "nu : "<< k.nu.get(ind) <<std::endl;
     std::cout << "mu : ";
-    for(int i=0;i<k.mu[ind].size();i++)
+    for(unsigned int i=0;i<k.mu[ind].size();i++)
         std::cout << k.mu[ind][i] << ",";
     std::cout<< std::endl <<  "lambda: ";
     std::vector<std::vector<double> > lambda = k.lambda[ind];
@@ -90,7 +90,7 @@ void sufficientStatistics::print(sufficientStatistics &k,  int ind){
     std::cout << "---------------" << std::endl;
 }
 void sufficientStatistics::printMu(sufficientStatistics &k,  int ind){
-    for(int i=0;i<k.mu[ind].size();i++)
+    for(unsigned int i=0;i<k.mu[ind].size();i++)
         if(k.nu.get(ind)>baseNu && k.kappa.get(ind)>baseKappa)
                 std::cout << k.mu[ind][0] << " " << k.mu[ind][1] << std::endl;
 

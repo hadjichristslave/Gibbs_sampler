@@ -84,7 +84,7 @@ Templates<int> GibbsSampler::collapsedCRP(vector<Part> &partVector){
 
             std::cout << "++++++++" << std::endl;
             std::vector<int> er = m.getActiveClusters();
-            for(int ik=0;ik<er.size();ik++){
+            for(unsigned int ik=0;ik<er.size();ik++){
                 if(k.kappa.get(er[ik])>1 &&k.nu.get(er[ik])>4)
                     k.printMu(k, er[ik] );
             }
@@ -133,7 +133,7 @@ int GibbsSampler::sampleNewCluster(Templates<int> &mu , double alpha, Part &data
     clustProbability.populate(0,activeClusters.size());
 
     //Calculate the marginal of every element given all other elements within the cluster
-    for(int i=0;i<activeClusters.size();i++){
+    for(unsigned int i=0;i<activeClusters.size();i++){
         int clustInd = activeClusters[i];
         // changed c.get(clustind) to clustInd;
         double pred = this->predictMarginal(datapoint, accumulatedStats, clustInd )*mu.get(clustInd );

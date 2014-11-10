@@ -13,8 +13,9 @@ class Sampler
     public:
         void resampleIndixes(Templates<double> &weights, Templates<int> &clusters);
         int resample();
-        double randomGamma(double alpha, double beta);
-        std::vector<double> generatePMF(std::vector<double> alphas);
+        double randomGamma(double alpha);
+        std::vector<double> generatePMF(std::vector<double> alphas ,int precision);
+
     protected:
     private:
 };
@@ -25,7 +26,7 @@ void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &cluste
     std::vector<std::vector<double> > interCl(topSize);
     double gammaRandom(double alpha, double theta);
 
-    std::vector<int>::iterator uniqeIt = unique(clusters.begin() ,clusters.end());
+    unique(clusters.begin() ,clusters.end());
     clusters.reassignIndexes();
 
 
@@ -38,8 +39,9 @@ void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &cluste
 
 }
 
-std::vector<double> Sampler::generatePMF(std::vector<double> alphas){
-
+std::vector<double> Sampler::generatePMF(std::vector<double> alphas, int precision){
+    std::vector<double> d;
+    return d;
 }
 
 double Sampler::randomGamma(double alpha){

@@ -64,7 +64,7 @@ void Templates<T>::populate(bool isRand, int numOfEntries, bool ram, bool rander
 
 template <class T>
 void Templates<T>::normalize(){ // any time of vector object is allowed
-    int size = elems.size();
+    unsigned int size = elems.size();
     T sum =0;
     for(unsigned i=0;i<elems.size();i++)
         sum+=elems[i];
@@ -88,7 +88,7 @@ T Templates<T>::get(int index){ // get the value of vector element
 template <class T>
 T Templates<T>::sum(){ // get the value of vector element
     T sum = 0;
-    for(int i=0;i<elems.size();i++)
+    for(unsigned int i=0;i<elems.size();i++)
         sum+=elems[i];
     return sum;
 }
@@ -101,15 +101,15 @@ template <class T>
 int Templates<T>::findFirst(T const& elem, int operation){ // get the value of vector element
     switch(operation){
         case 1:
-            for(int i=0;i<elems.size();i++)
+            for(unsigned int i=0;i<elems.size();i++)
                     if(elems[i]==elem) return i;
             break;
         case 2:
-            for(int i=0;i<elems.size();i++)
+            for(unsigned int i=0;i<elems.size();i++)
                     if(elems[i]>=elem) return i;
             break;
         case 3:
-            for(int i=0;i<elems.size();i++)
+            for(unsigned int i=0;i<elems.size();i++)
                     if(elems[i]<=elem) return i;
             break;
     }
@@ -118,7 +118,7 @@ int Templates<T>::findFirst(T const& elem, int operation){ // get the value of v
 //divide all elemets with value
 template<class T>
 void Templates<T>::divide(T const& elem){
-    for(int i=0;i<elems.size();i++)
+    for(unsigned int i=0;i<elems.size();i++)
         elems[i] = elems[i]/elem;
 }
 
@@ -132,7 +132,7 @@ void Templates<T>::print(int index){ // print the indexed element
 }
 template <class T>
 void Templates<T>::print(){ // print the indexed element
-    for(int i=0;i<elems.size();i++)
+    for(unsigned int i=0;i<elems.size();i++)
         std::cout << elems.at(i) << "-";
     std::cout<< std::endl;
 }
@@ -147,7 +147,7 @@ int Templates<T>::size(){ // self exp
 template <class T>
 std::vector<int> Templates<T>::getActiveClusters(){
     std::vector<int> emptyCells;
-    for(int i=0;i<elems.size();i++)
+    for(unsigned int i=0;i<elems.size();i++)
         if(elems[i]>0)
             emptyCells.push_back(i);
     return emptyCells;
@@ -158,7 +158,7 @@ std::vector<T> Templates<T>::cumsum(){
     std::vector<T> cumSumVect;
     cumSumVect.push_back(elems[0]);
     if(elems.size()>1)
-        for(int i=1;i<elems.size();i++){
+        for(unsigned int i=1;i<elems.size();i++){
             T sum = elems[i]+cumSumVect[i-1];
             cumSumVect.push_back(sum);
         }
@@ -170,7 +170,7 @@ int Templates<T>::uniqueSize(){
     std::vector<T> tempvec = elems; // make a copy of the vector
     typename vector<T>::iterator it; // uniqe unique unique repeat repeat repeat
     tempvec.erase( unique(tempvec.begin(), tempvec.end()) ,tempvec.end());
-    for(int i=0;i<tempvec.size();i++)
+    for(unsigned int i=0;i<tempvec.size();i++)
         uniques.push_back(tempvec[i]);
     return tempvec.size();
 }
