@@ -41,7 +41,7 @@ class GibbsSampler : public Sampler
         *  Every hard coded variable that is needed in order to define the model is given bellow
         */
         static const int dataDim  = 2;
-        static const double alpha = 20;
+        static constexpr double alpha = 20.0;
         static const int nIter    = 20;
 
         //Initialize the parameters of the base distributions

@@ -65,7 +65,6 @@ Templates<int> GibbsSampler::collapsedCRP(vector<Part> &partVector){
             if(m.get(c.get(j))>1)
                 G0.updateSufficientStatistics(partVector[j], k, cluster, true);
             else{
-                //G0.updateSufficientStatistics(partVector[j], G0, 0, true);
                 k.set(G0,cluster);
                 G0.updateSufficientStatistics(partVector[j], k, cluster, true);
             }
