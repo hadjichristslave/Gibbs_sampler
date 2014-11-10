@@ -42,7 +42,7 @@ class GibbsSampler : public Sampler
         */
         static const int dataDim  = 2;
         static const double alpha = 20;
-        static const int nIter    = 40;
+        static const int nIter    = 20;
 
         //Initialize the parameters of the base distributions
 
