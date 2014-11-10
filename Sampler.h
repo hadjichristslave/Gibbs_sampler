@@ -36,7 +36,7 @@ void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &cluste
 
     for(unsigned int i=0;i<clusters.size();i++){
         intraCl[clusters.get(i)] = intraCl[clusters.get(i)] + weights.get(i);
-        interCl[clusters.get(i)].push_back(weights.get(i));
+        interCl[clusters.get(i)].push_back(weights.get(i), (double)i);
     }
 
     std::vector<double> pmf = generatePMF(intraCl, precision);
