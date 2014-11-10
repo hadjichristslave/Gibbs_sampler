@@ -10,7 +10,6 @@
 
 // The almighty Auxiliary class.
 // Created mostly to avoid boost dependancies on the sampler
-// Oh yes and the name Auxiliary is uber cool, so there's that.
 // The sampler uses vectors and all vector to ublas matrix transformations are done within the class
 // Name it and there probably is a utility for it in here
 // Matrixes, vector conversions, and the boost library is loaded here

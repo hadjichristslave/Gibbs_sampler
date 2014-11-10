@@ -38,6 +38,7 @@ class Templates
         void reassignIndexes();
         typename std::vector<T>::iterator end();
         typename std::vector<T>::iterator begin();
+        void add(T elem);
 
 
     protected:
@@ -204,6 +205,9 @@ typename std::vector<T>::iterator Templates<T>::end(){ // any time of vector obj
     return elems.end();
 }
 
-
+template <class T>
+void Templates<T>::add(T elem){ // any time of vector object is allowed
+    elems.push_back(elem);
+}
 
 #endif // ABSTRACTS_H

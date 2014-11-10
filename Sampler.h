@@ -17,13 +17,15 @@ class Sampler
         int resample();
         double randomGamma(double shape, double scale);
         std::vector<double> generatePMF(std::vector<double> &alphas ,int precision);
+        Templates<int> sampleClusters(Templates<double> &pmf, int numberOfSamples);
 
     protected:
     private:
-        static const int precision = 5;
+        static const int precision = 10;
 };
 
 void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &clusters){
+    Templates<double> PMF;
     int topSize = clusters.uniqueSize();
     std::vector<double> intraCl(topSize,0);
     std::vector<std::vector<double> > interCl(topSize);
@@ -32,14 +34,39 @@ void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &cluste
     unique(clusters.begin() ,clusters.end());
     clusters.reassignIndexes();
 
-
-
-    for(int i=0;i<clusters.size();i++){
+    for(unsigned int i=0;i<clusters.size();i++){
         intraCl[clusters.get(i)] = intraCl[clusters.get(i)] + weights.get(i);
         interCl[clusters.get(i)].push_back(weights.get(i));
     }
-    std::vector<double> pmf = generatePMF(intraCl, precision);
 
+    std::vector<double> pmf = generatePMF(intraCl, precision);
+    PMF.set(pmf);
+    PMF.normalize();
+
+
+    Templates<int> topClusters= sampleClusters(PMF , clusters.size());
+
+    for(unsigned int i=0;i<topClusters.size();i++){
+
+    }
+    asd.print();
+}
+
+Templates<int> Sampler::sampleClusters(Templates<double> &pmf , int numberOfSamples){
+    Templates<int> clusterAssignments;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0,1);
+
+    std::vector<double> cumulativeSum = pmf.cumsum();
+    pmf.set(cumulativeSum);
+
+    for(unsigned int i=0;i<numberOfSamples;i++){
+        double randomNum = dis(gen);
+        int assignment  = pmf.findFirst(randomNum, 2);
+        clusterAssignments.add(assignment);
+    }
+    return clusterAssignments;
 }
 
 std::vector<double> Sampler::generatePMF(std::vector<double> &alphas, int precision){

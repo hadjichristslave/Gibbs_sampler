@@ -69,9 +69,7 @@ Templates<int> GibbsSampler::collapsedCRP(vector<Part> &partVector){
                 G0.updateSufficientStatistics(partVector[j], k, cluster, true);
             }
         }
-        //std::vector<int> act = m.getActiveClusters();
-        //std::cout << act.size()<< "--" << std::endl;
-        //m.print();
+
 
         if(debuger){
             std::cout << "--------" <<std::endl;
@@ -79,7 +77,6 @@ Templates<int> GibbsSampler::collapsedCRP(vector<Part> &partVector){
                 Point p = (Point)partVector[ij];
                 std::cout << p.getX() << "," << p.getY() << "," << c.get(ij)<< std::endl;;
             }
-
 
             std::cout << "++++++++" << std::endl;
             std::vector<int> er = m.getActiveClusters();
