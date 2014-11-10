@@ -14,7 +14,7 @@ GibbsSampler::~GibbsSampler(){
 *  data set after being clustered as a mixture of Gaussians using a Gibbs sampler.
 *  This function is an enhancement to the random roullete wheel procedure of the FastSLAM algorithm
 */
-int GibbsSampler::collapsedCRP(vector<Part> &partVector){
+Templates<int> GibbsSampler::collapsedCRP(vector<Part> &partVector){
 
 
     //Get the dataset size. Will be needed to initialize the sufficient statistics struct.
@@ -30,12 +30,12 @@ int GibbsSampler::collapsedCRP(vector<Part> &partVector){
     // m vector represents the number of data points that exist in cluster C
     // size will be 1xN where N is the number of datapoints
     Templates<int> m;
-    m.populate(0.0,dataSize);
+    m.populate((double)0.0,dataSize);
 
     //c represents the cluster every point is assigned to
     // size will be 1xN where N is the number of datapoints
     Templates<int> c;
-    c.populate(0,dataSize);
+    c.populate((int)0,dataSize);
 
     // The first iteration will randomly allocate particles to clusters. The sufficient statistics of every cluster will be updated normallys
     this->initialize(partVector, m, c,k , dataSize);
@@ -90,7 +90,7 @@ int GibbsSampler::collapsedCRP(vector<Part> &partVector){
             }
         }
     }
-    //c.print();
+    return c;
 }
 void GibbsSampler::initialize(vector<Part> &partVector, Templates<int> &mu , Templates<int> &c, sufficientStatistics &k , int dataSize){
     //Some variable declerations
@@ -263,8 +263,12 @@ int main(){
     }
 
     try{
-        gs.collapsedCRP(particleVector);
+        Templates<int> assignments = gs.collapsedCRP(particleVector);
+        Templates<double> weights;
+        weights.populate(true, assignments.size(), true, true);
+        resampleIndixes(weights, assignments);
 
+        std::cout << weights.sum() <<std::endl;
     }catch(exception &e){
         std::cout << " Exception occured " << e.what() << std::endl;
     }

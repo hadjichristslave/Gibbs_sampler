@@ -1,7 +1,7 @@
 #ifndef ABSTRACTS_H
 #define ABSTRACTS_H
 #include <vector>
-
+#include <stdlib.h>
 using namespace std;
 
 
@@ -15,6 +15,8 @@ class Templates
         vector<T> elems;
     public:
         void populate(T const& elem, int numOfEntries);
+        void populate(bool isRand, int numOfEntries, bool ram, bool rander);
+        void normalize();
         void populate(T const& elem, int numOfEntries, int numOfDimensions);
         void set(T const& elem, int index);
         void set(std::vector<T> &elem);
@@ -38,6 +40,25 @@ template <class T>
 void Templates<T>::populate(T const& elem, int numOfEntries){ // any time of vector object is allowed
     for(int i=0;i<numOfEntries;i++)
         elems.push_back(elem);
+}
+
+template <class T>
+void Templates<T>::populate(bool isRand, int numOfEntries, bool ram, bool rander){ // any time of vector object is allowed
+    for(int i=0;i<numOfEntries;i++){
+        int random = rand();
+        int variable = random%numOfEntries;
+        elems.push_back(variable);
+    }
+}
+
+template <class T>
+void Templates<T>::normalize(){ // any time of vector object is allowed
+    int size = elems.size();
+    T sum =0;
+    for(unsigned i=0;i<elems.size();i++)
+        sum+=elems[i];
+    for(unsigned int i=0;i<size;i++)
+        elems[i] = elems[i]/sum;
 }
 
 template <class T>

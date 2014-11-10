@@ -16,26 +16,23 @@
 #include "structs.h"  //generic class definitions
 #include "Templates.h" //depends to structs.h
 #include "sufficientStatistics.h" // depends to structs.h, Templates.h
-
-
-
-
-
+#include "Sampler.h"
 
 using namespace std;
 
-class GibbsSampler
+class GibbsSampler : public Sampler
 {
     public:
         GibbsSampler();
         virtual ~GibbsSampler();
         Part particle;
         vector<Part> particleVector;
-        int collapsedCRP(vector<Part> &partVector);
+        Templates<int> collapsedCRP(vector<Part> &partVector);
         void initialize(vector<Part> &partVector, Templates<int> &mu , Templates<int> &c, sufficientStatistics &k, int dataDim);
         int sampleNewCluster(Templates<int> &mu , double alpha,Part &datapoint,  sufficientStatistics &accumulatedStats);
         double predictMarginal(Part &part, sufficientStatistics &Stats, int pointIndex );
         sufficientStatistics G0;
+
 
         static const bool debuger = false;
 
