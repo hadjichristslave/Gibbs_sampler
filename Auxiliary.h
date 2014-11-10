@@ -10,7 +10,6 @@
 
 // The almighty Auxiliary class.
 // Created mostly to avoid boost dependancies on the sampler
-// Oh yes and the name Auxiliary is uber cool, so there's that.
 // The sampler uses vectors and all vector to ublas matrix transformations are done within the class
 // Name it and there probably is a utility for it in here
 // Matrixes, vector conversions, and the boost library is loaded here
@@ -137,7 +136,7 @@ boost::numeric::ublas::matrix<T> Auxiliary<T>::vectorToUblasMatrix(std::vector<T
 template<typename T>
 std::vector<T> Auxiliary<T>::ublasMatrixToVector(boost::numeric::ublas::matrix<T> &A){
     std::vector<T> vectie;
-    for(int i=0;i<A.size1();i++)
+    for(unsigned int i=0;i<A.size1();i++)
         vectie.push_back(A(i,0));
     return vectie;
 }
@@ -146,9 +145,9 @@ std::vector<T> Auxiliary<T>::ublasMatrixToVector(boost::numeric::ublas::matrix<T
 template<typename T>
 std::vector< std::vector<T> > Auxiliary<T>::ublasMatrixToMatrix(boost::numeric::ublas::matrix<T> &A){
     std::vector< std::vector<T> > vectie;
-    for(int i=0;i<A.size1();i++){
+    for(unsigned int i=0;i<A.size1();i++){
         std::vector<T> temp;
-        for(int j=0;j<A.size2();j++)
+        for(unsigned int j=0;j<A.size2();j++)
             temp.push_back(A(i,j));
         vectie.push_back(temp);
     }

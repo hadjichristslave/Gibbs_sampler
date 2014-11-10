@@ -14,7 +14,7 @@ GibbsSampler::~GibbsSampler(){
 *  data set after being clustered as a mixture of Gaussians using a Gibbs sampler.
 *  This function is an enhancement to the random roullete wheel procedure of the FastSLAM algorithm
 */
-int GibbsSampler::collapsedCRP(vector<Part> &partVector){
+Templates<int> GibbsSampler::collapsedCRP(vector<Part> &partVector){
 
 
     //Get the dataset size. Will be needed to initialize the sufficient statistics struct.
@@ -30,12 +30,12 @@ int GibbsSampler::collapsedCRP(vector<Part> &partVector){
     // m vector represents the number of data points that exist in cluster C
     // size will be 1xN where N is the number of datapoints
     Templates<int> m;
-    m.populate(0.0,dataSize);
+    m.populate((double)0.0,dataSize);
 
     //c represents the cluster every point is assigned to
     // size will be 1xN where N is the number of datapoints
     Templates<int> c;
-    c.populate(0,dataSize);
+    c.populate((int)0,dataSize);
 
     // The first iteration will randomly allocate particles to clusters. The sufficient statistics of every cluster will be updated normallys
     this->initialize(partVector, m, c,k , dataSize);
@@ -65,12 +65,11 @@ int GibbsSampler::collapsedCRP(vector<Part> &partVector){
             if(m.get(c.get(j))>1)
                 G0.updateSufficientStatistics(partVector[j], k, cluster, true);
             else{
-                //G0.updateSufficientStatistics(partVector[j], G0, 0, true);
                 k.set(G0,cluster);
                 G0.updateSufficientStatistics(partVector[j], k, cluster, true);
             }
         }
-        //std::cout <<"---------iter-----------" << std::endl;
+
         if(debuger){
             std::cout << "--------" <<std::endl;
             for ( int ij=0;ij<c.size();ij++){
@@ -78,16 +77,15 @@ int GibbsSampler::collapsedCRP(vector<Part> &partVector){
                 std::cout << p.getX() << "," << p.getY() << "," << c.get(ij)<< std::endl;;
             }
 
-
             std::cout << "++++++++" << std::endl;
             std::vector<int> er = m.getActiveClusters();
-            for(int ik=0;ik<er.size();ik++){
+            for(unsigned int ik=0;ik<er.size();ik++){
                 if(k.kappa.get(er[ik])>1 &&k.nu.get(er[ik])>4)
                     k.printMu(k, er[ik] );
             }
         }
     }
-    //c.print();
+    return c;
 }
 void GibbsSampler::initialize(vector<Part> &partVector, Templates<int> &mu , Templates<int> &c, sufficientStatistics &k , int dataSize){
     //Some variable declerations
@@ -130,7 +128,7 @@ int GibbsSampler::sampleNewCluster(Templates<int> &mu , double alpha, Part &data
     clustProbability.populate(0,activeClusters.size());
 
     //Calculate the marginal of every element given all other elements within the cluster
-    for(int i=0;i<activeClusters.size();i++){
+    for(unsigned int i=0;i<activeClusters.size();i++){
         int clustInd = activeClusters[i];
         // changed c.get(clustind) to clustInd;
         double pred = this->predictMarginal(datapoint, accumulatedStats, clustInd )*mu.get(clustInd );
@@ -250,7 +248,7 @@ int main(){
             double x = strtod (tab2, &pEnd);
             double y = strtod (tab1, &pEnd);
 
-            //finally add data to vector
+            //finally add data to vector]
             Part p = Part();
             Point poi(x, y);
             p.setPoint(poi);
@@ -260,7 +258,15 @@ int main(){
     }
 
     try{
-        gs.collapsedCRP(particleVector);
+        Templates<int> assignments = gs.collapsedCRP(particleVector);
+        Templates<double> weights;
+
+        weights.populate(true, assignments.size(), true, true);
+        weights.normalize();
+        gs.resampleIndixes(weights, assignments);
+
+
+
 
     }catch(exception &e){
         std::cout << " Exception occured " << e.what() << std::endl;
