@@ -25,18 +25,30 @@ class Sampler
 };
 
 void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &clusters){
+    //vector of the particles to keep
+    std::vector<int> keep;
+    //template of the top PMF. Template used due to its massive functionality compared to a simple std::vector struct
     Templates<double> PMF;
+    //get the unique number of clusters. To be used for the first hierarchy
     int topSize = clusters.uniqueSize();
+
     std::vector<double> intraCl(topSize,0);
+    // set the inter number of clusters for the second hierarchy
     std::vector<std::vector<double> > interCl(topSize);
+
     double gammaRandom(double alpha, double theta);
 
+    //find unique clusters, elements are modified internaly
     unique(clusters.begin() ,clusters.end());
+    //fix the indexes to link to the super clusters.
     clusters.reassignIndexes();
 
     for(unsigned int i=0;i<clusters.size();i++){
         intraCl[clusters.get(i)] = intraCl[clusters.get(i)] + weights.get(i);
-        interCl[clusters.get(i)].push_back(weights.get(i), (double)i);
+        // add the weight of the particle of the sub-cluster
+        interCl[clusters.get(i)].push_back(weights.get(i));
+        // add the index of the weight so that reverse tracability is possible.
+        interCl[clusters.get(i)].push_back((double)i);
     }
 
     std::vector<double> pmf = generatePMF(intraCl, precision);
@@ -46,10 +58,20 @@ void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &cluste
 
     Templates<int> topClusters = sampleClusters(PMF , clusters.size());
 
-    for(unsigned int i=0;i<topClusters.size();i++){
+    for(unsigned int i=0;i<clusters.size();i++){
+        int currInd = topClusters.get(i);
+        Templates<double> weights;
+        weights.set(interCl[currInd]);
+        weights = weights.returnSeries(0,2);
+        weights.normalize();
+        Templates<double> indexes;
+        indexes.set(interCl[currInd]);
+        indexes = indexes.returnSeries(1,2);
 
+        Templates<int> inter = sampleClusters(weights , 1);
+        keep.push_back(inter.get(0));
     }
-    asd.print();
+    for(int i=0)
 }
 
 Templates<int> Sampler::sampleClusters(Templates<double> &pmf , int numberOfSamples){
@@ -88,7 +110,9 @@ double Sampler::randomGamma(double shape, double scale){
     boost::gamma_distribution<> pdf(shape);
     //merge distribution with random number generator
     boost::variate_generator<boost::mt19937&, boost::gamma_distribution<> >
+    //create gamma distribuded random var
     generator(rng, pdf);
+    //multiply by scale to fix the one parameter gamma rnd provided by boost
     return scale*generator();
 }
 

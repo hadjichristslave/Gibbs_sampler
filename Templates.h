@@ -38,6 +38,7 @@ class Templates
         void reassignIndexes();
         typename std::vector<T>::iterator end();
         typename std::vector<T>::iterator begin();
+        Templates<T> returnSeries(int offset, int step);
         void add(T elem);
 
 
@@ -209,5 +210,16 @@ template <class T>
 void Templates<T>::add(T elem){ // any time of vector object is allowed
     elems.push_back(elem);
 }
+template<class T>
+Templates<T> Templates<T>::returnSeries(int offset, int step){
+    Templates<T> vect;
+    if(offset>elems.size()){
+        return vect;
+    }else{
+        for(unsigned int i=offset;i<elems.size();i=i+step)
+            vect.add(elems[i]);
+        return vect;
+    }
 
+}
 #endif // ABSTRACTS_H
