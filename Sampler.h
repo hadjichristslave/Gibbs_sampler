@@ -71,7 +71,10 @@ void Sampler::resampleIndixes(Templates<double> &weights, Templates<int> &cluste
         Templates<int> inter = sampleClusters(weights , 1);
         keep.push_back(inter.get(0));
     }
-    for(int i=0)
+    for(unsigned int i=0;i<keep.size();i++){
+        std::cout << keep[i] << "-";
+    }
+    std::cout << "\n";
 }
 
 Templates<int> Sampler::sampleClusters(Templates<double> &pmf , int numberOfSamples){
